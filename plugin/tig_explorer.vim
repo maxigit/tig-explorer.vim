@@ -34,3 +34,39 @@ command! TigGrepResume
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
+
+function! TigOpenFile(lineno, file, commit)
+  echo "Open with commit" a:lineno a:file a:commit
+  echomsg "Open with commit" a:lineno a:file a:commit
+  if (a:commit == 'HEAD' || a:commit == '')
+    execute "edit" a:lineno a:file
+  else
+    let s:diff = 0
+    if a:file == ""
+      echomsg "A"
+      let s:diff = 1
+      let s:file = expand('%')
+    else
+      echomsg "B"
+      let s:file = a:file
+      if s:file == expand('%')
+        let s:diff = 1
+      endif
+    endif
+    echo "openning" s:file
+    echomsg "openning" s:file
+    if s:diff
+      diffthis
+    endif
+    vnew
+    echomsg ("r !git show ".a:commit .":".s:file) 
+    execute ("r !git show ".a:commit .":".s:file) 
+    execute "file" (a:commit.":".s:file)
+    if s:diff
+      diffthis
+    endif
+    execute "0"
+    execute a:lineno
+  endif
+
+endfunction

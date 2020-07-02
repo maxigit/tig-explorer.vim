@@ -170,6 +170,7 @@ endfunction
 function! s:open_file() abort
   if filereadable(s:path_file)
     for f in readfile(s:path_file)
+      echo "executing:"  f
       exec f
     endfor
     call delete(s:path_file)
@@ -228,3 +229,4 @@ call s:initialize()
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
+

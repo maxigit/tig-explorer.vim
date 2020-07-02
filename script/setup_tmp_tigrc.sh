@@ -20,7 +20,8 @@ cp "$orig_tigrc" "$tmp_tigrc"
 # $1: 'keymap'
 # $2: 'edit_cmd'
 function add_custom_command() {
-  echo "bind generic $1 <sh -c \"echo $2 +%(lineno) %(file) > $path_file\"" >> "$tmp_tigrc"
+  echo "bind generic $1 <sh -c \"echo call TigOpenFile\\\\(\\\\'+%(lineno)\\\\', \\\\'%(file)\\\\', \\\\'%(commit)\\\\'\\\\) > $path_file\"" >> "$tmp_tigrc"
+
 }
 
 add_custom_command "e"               "edit"
